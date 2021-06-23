@@ -17,8 +17,14 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+    - name: Setup Python
+      uses: actions/setup-python@v2.2.2
+    - name: Install tccli
+      run: pip install tccli
     - name: Restore dependencies
       run: dotnet restore
+    - name: Check if tccli installed
+      run: tccli --version
     - name: Build
       run: dotnet build --no-restore
     - name: Test
