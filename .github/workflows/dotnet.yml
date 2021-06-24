@@ -17,9 +17,30 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+    - name: Setup Python
+      uses: actions/setup-python@v2.2.2
+    - name: Install tccli
+      run: pip install tccli
+    - name: Check if tccli installed
+      run: tccli --version
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build --no-restore -o ./target
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Login to Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ccr.ccs.tencentyun.com
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ccr.ccs.tencentyun.com/han_test/myWebApp:latest
+      
+    
