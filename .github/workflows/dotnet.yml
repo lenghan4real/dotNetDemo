@@ -24,7 +24,9 @@ jobs:
       - name: Declare some variables
         id: vars
         shell: bash
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=pwd::$(pwd)"
       - name: Build
         run: dotnet publish -o ./target
       - name: Set up Docker Buildx
@@ -51,6 +53,6 @@ jobs:
       - name: Construct DeployServiceV2 Arguments
         run: cat ./tem_deploy_service_v2.json | tr "$tag" ${{ steps.vars.outputs.sha_short }} > tem_deploy_service_v2.json
       - name: DeployService in TEM
-        run: tccli tem DeployServiceV2 --cli-input-json ./tem_deploy_service_v2.json
+        run: tccli tem DeployServiceV2 --cli-input-json file://${{ steps.vars.outputs.pwd }}/tem_deploy_service_v2.json
         
       
