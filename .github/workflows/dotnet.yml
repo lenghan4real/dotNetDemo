@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           echo "::set-output name=pwd::$(pwd)"
-      - name: Build
+      - name: Build Code
         run: dotnet publish -o ./target
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -50,9 +50,13 @@ jobs:
           tccli configure set secretKey ${{ secrets.QCLOUD_SECRET_KEY }}
           tccli configure set region ${{ secrets.QCLOUD_REGION }}
           tccli configure set output json
-      - name: Construct DeployServiceV2 Arguments
-        run: cat ./tem_deploy_service_v2.json | tr "$tag" ${{ steps.vars.outputs.sha_short }} > tem_deploy_service_v2.json
       - name: DeployService in TEM
-        run: tccli tem DeployServiceV2 --cli-input-json file://${{ steps.vars.outputs.pwd }}/tem_deploy_service_v2.json
-        
-      
+        run: tccli tem DeployServiceV2  --cli-unfold-argument \
+          --ImgRepo ccr.ccs.tencentyun.com/han_test/my-web-app \
+          --DeployMode IMAGE \
+          --DeployVersion ${{ steps.vars.outputs.sha_short}} \
+          --InitPodNum 1 \
+          --ServiceId service-bne6d5pv \
+          --NamespaceId env-8bne22nv 
+            
+          

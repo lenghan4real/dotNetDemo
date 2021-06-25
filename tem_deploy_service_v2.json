@@ -1,9 +1,0 @@
-{
-    "Action": "DeployServiceV2",
-    "ServiceId": "service-bne6d5pv",
-    "NamespaceId": "env-8bne22nv",
-    "DeployMode": "IMAGE",
-    "ImgRepo": "ccr.ccs.tencentyun.com/han_test/my-web-app",
-    "DeployVersion": "$tag",
-    "InitPodNum": 1
-}
