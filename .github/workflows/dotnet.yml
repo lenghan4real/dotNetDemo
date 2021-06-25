@@ -10,10 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Declare some variables
-        id: vars
-        shell: bash
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - uses: actions/checkout@v2
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
@@ -25,6 +21,10 @@ jobs:
         run: pip install tccli
       - name: Check if tccli installed
         run: tccli --version
+      - name: Declare some variables
+        id: vars
+        shell: bash
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Build
         run: dotnet build -o ./target
       - name: Set up Docker Buildx
