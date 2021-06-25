@@ -51,6 +51,6 @@ jobs:
           tccli configure set region ${{ secrets.QCLOUD_REGION }}
           tccli configure set output json
       - name: DeployService in TEM
-        run: tccli tem DeployServiceV2 --cli-unfold-argument --ImgRepo ccr.ccs.tencentyun.com/han_test/my-web-app --DeployMode IMAGE --DeployVersion ${{ steps.vars.outputs.sha_short}} --InitPodNum 1 --ServiceId service-bne6d5pv --NamespaceId env-8bne22nv --ContainerPort=0 --CpuSpec=0 --MemorySpec=0
+        run: tccli tem DeployServiceV2 --cli-unfold-argument --ImgRepo ccr.ccs.tencentyun.com/han_test/my-web-app --DeployMode IMAGE --DeployVersion ${{ steps.vars.outputs.sha_short}} --InitPodNum 1 --EsInfo.MinAliveInstances=1 --ServiceId service-bne6d5pv --NamespaceId env-8bne22nv --ContainerPort=0 --CpuSpec=0 --MemorySpec=0
             
           
