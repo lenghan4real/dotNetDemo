@@ -49,8 +49,8 @@ jobs:
           tccli configure set region ${{ secrets.QCLOUD_REGION }}
           tccli configure set output json
       - name: Construct DeployServiceV2 Arguments
-        run: cat /tmp/tem_deploy_service_v2.json | tr "$tag" ${{ steps.vars.outputs.sha_short }} > tem_deploy_service_v2.json
+        run: cat /app/tem_deploy_service_v2.json | tr "$tag" ${{ steps.vars.outputs.sha_short }} > tem_deploy_service_v2.json
       - name: DeployService in TEM
-        run: tccli tem DeployServiceV2 --cli-input-json file:///tmp/tem_deploy_service_v2.json
+        run: tccli tem DeployServiceV2 --cli-input-json file:///app/tem_deploy_service_v2.json
         
       
