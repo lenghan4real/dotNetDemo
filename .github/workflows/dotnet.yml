@@ -51,6 +51,6 @@ jobs:
           tccli configure set region ${{ secrets.QCLOUD_REGION }}
           tccli configure set output json
       - name: DeployService in TEM
-        run: tccli tem RollingUpdateApplicationByVersion --cli-unfold-argument --ApplicationId service-5pow6ajn --EnvironmentId env-5po7mdey --DeployVersion ${{ steps.vars.outputs.sha_short}}
+        run: tccli tem RollingUpdateApplicationByVersion --cli-unfold-argument --version v20210701 --ApplicationId service-5pow6ajn --EnvironmentId env-5po7mdey --DeployVersion ${{ steps.vars.outputs.sha_short}}
             
           
